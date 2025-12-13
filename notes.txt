@@ -1,0 +1,1 @@
+3/9/24 why is terminal with R opening at top of vim app? 
