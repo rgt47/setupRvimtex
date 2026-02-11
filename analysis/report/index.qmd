@@ -1,6 +1,6 @@
 ---
 title: "Setting up R, vimtex and Ultisnips in vim on a Mac"
-draft: true
+draft: false
 description: "Detailed configuration for optimal interaction and efficiency"
 categories: [vim, R, Tex, Ultisnips]
 date: today
