@@ -5,7 +5,7 @@ subtitle: >
   environment in Vim on macOS
 author: "Ronald G. Thomas"
 date: "2025-06-15"
-categories:
+categories: [vim, r, latex, neovim, configuration]
   [Vim, R Programming, LaTeX, Developer Tools]
 description: >
   I did not really know how to connect Vim, R, and
