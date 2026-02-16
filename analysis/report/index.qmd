@@ -95,11 +95,7 @@ I am documenting my learning process here. If you
 spot errors or have better approaches, please let
 me know.
 
-![A quiet workspace with monitors and reference
-materials spread across a desk.
-](media/images/ambiance1.jpg){.img-fluid
-fig-alt="An atmospheric photograph of a developer
-workspace with multiple monitors and books."}
+![](media/images/vim-logo.png){.img-fluid width=30% fig-align="center"}
 
 *The kind of focused environment where configuration
 work happens best.*
