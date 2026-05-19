@@ -43,16 +43,17 @@ mental model. I needed a single environment that could handle R
 scripts, R Markdown documents, and LaTeX files without forcing
 me to leave Vim.
 
-This post documents the complete configuration I arrived at
-after several rounds of trial and error, then extends it with a
-technique I discovered later: embedding Python code directly
-inside UltiSnips snippets. Static snippets cover predictable
-boilerplate. Python-interpolated snippets cover cases where the
-expansion itself must be computed at runtime -- for instance,
-generating a variable number of repeated elements based on a
-value the user types.
+We document the complete configuration arrived at after
+several rounds of trial and error, then extend it with
+a technique discovered later: embedding Python code
+directly inside UltiSnips snippets. Static snippets
+cover predictable boilerplate. Python-interpolated
+snippets cover cases where the expansion must be
+computed at runtime (for instance, generating a
+variable number of repeated elements based on a value
+typed into the first tabstop).
 
-More formally, this post documents the Vim-plugins layer (Layer
+More formally, we document the Vim-plugins layer (Layer
 6) of the Workflow Construct described in
 [post 52](/posts/52-workflow-construct/), specifically the
 R-plus-LaTeX subset. The plugins documented here (Nvim-R or
@@ -108,13 +109,13 @@ happens best.*
 
 # Prerequisites and Setup
 
-Before proceeding, you will need the following software
-installed on your macOS system:
+Before proceeding, the following software must be
+installed on the macOS system:
 
 - **Vim 8.1+ compiled with Python 3 support** or **Neovim
-  0.5+** with terminal support. To verify Python 3 support in
-  your current Vim binary, run `:echo has('python3')` inside
-  Vim; a return value of `1` confirms it is available.
+  0.5+** with terminal support. To verify Python 3 support,
+  run `:echo has('python3')` inside Vim; a return value of
+  `1` confirms it is available.
 - **R 4.4+** from
   [CRAN](https://cran.r-project.org/bin/macosx/)
 - **MacTeX** from
@@ -128,8 +129,9 @@ curl -fLo ~/.vim/autoload/plug.vim \
 junegunn/vim-plug/master/plug.vim
 ```
 
-You should also have a working terminal emulator (iTerm2 or
-Kitty) and basic familiarity with Vim normal and insert modes.
+A working terminal emulator (iTerm2 or Kitty) and basic
+familiarity with Vim normal and insert modes are also
+assumed.
 See the companion post 'Setting up a minimal neovim...' for
 details on installing plugins with Neovim. Python 3 support is
 required for UltiSnips to function at all; without it, the
@@ -137,28 +139,29 @@ plugin loads but snippet expansion silently fails.
 
 # What is a Vim-Based R and LaTeX Workflow?
 
-A Vim-based R and LaTeX workflow is a configuration that lets
-you write R code, R Markdown documents, and LaTeX files inside
-a single Vim session. Instead of switching between RStudio for
-data analysis and a dedicated LaTeX editor for typesetting, you
-use Vim as the unified interface.
+A Vim-based R and LaTeX workflow is a configuration that
+supports writing R code, R Markdown documents, and LaTeX files
+inside a single Vim session. Instead of switching between
+RStudio for data analysis and a dedicated LaTeX editor for
+typesetting, Vim serves as the unified interface.
 
 Think of it as turning Vim into a lightweight IDE. The .vimrc
 file loads plugins for LaTeX compilation (vimtex), code snippet
 expansion (UltiSnips), and syntax linting (ALE). Filetype
-plugins detect whether you are editing an R script or an R
-Markdown file and automatically open an R terminal in a split
-pane. Keybindings let you send code to the REPL, inspect data
-objects, and render documents without leaving the editor.
+plugins detect whether the open file is an R script or an R
+Markdown document and automatically open an R terminal in a
+split pane. Keybindings allow sending code to the REPL,
+inspecting data objects, and rendering documents without
+leaving the editor.
 
-The practical benefit is speed. Once configured, you can go
+The practical benefit is speed. Once configured, one can move
 from opening a file to running a complete analysis and
-compiling a PDF report without ever touching the mouse or
+compiling a PDF report without touching the mouse or
 switching applications.
 
 # Getting Started
 
-The first step is to create or edit your `~/.vimrc` file with
+The first step is to create or edit the `~/.vimrc` file with
 the full plugin configuration. The configuration below is a
 complete, working .vimrc that I use daily. It includes plugin
 declarations, global settings, and keybindings.
@@ -444,12 +447,12 @@ autocmd BufEnter *
   \ | endif
 ```
 
-The object inspection mappings deserve explanation. When your
+The object inspection mappings deserve explanation. When the
 cursor is on a variable name, pressing `<localleader>d`
 extracts the word under the cursor, wraps it in `dim()`, and
-sends the command to the R terminal. This lets you check
-dimensions, print heads, inspect structure, and view names of
-any R object without leaving normal mode.
+sends the command to the R terminal. This allows checking
+dimensions, printing heads, inspecting structure, and viewing
+names of any R object without leaving normal mode.
 
 # Filetype Plugin for R Scripts
 
@@ -789,7 +792,7 @@ followed by `Ctrl-X Ctrl-O` for omni-completion of file paths.
 
 2. **ftplugin not loading.** If the R terminal does not open
    automatically, verify that `filetype plugin indent on`
-   appears in your .vimrc before any `Plug` calls, and that
+   appears in the `.vimrc` before any `Plug` calls, and that
    the ftplugin files are in `~/.vim/ftplugin/` (not
    `~/.vim/plugin/`).
 
@@ -802,9 +805,9 @@ followed by `Ctrl-X Ctrl-O` for omni-completion of file paths.
    ensure the colour scheme plugin has been downloaded.
 
 5. **Terminal register paste.** The `<C-w>""` paste in
-   terminal mode pastes from the unnamed register. If you
-   yanked into a named register, use `<C-w>"a` (for register
-   `a`).
+   terminal mode pastes from the unnamed register. If the
+   text was yanked into a named register, use `<C-w>"a`
+   (for register `a`).
 
 6. **Python interpolation requires Python 3 support.** Vim
    must be compiled with `+python3`. The default macOS system
@@ -882,7 +885,7 @@ representing the reflective phase of configuration work."}
   dots, which is helpful for R (where `data.frame` is two
   words) but can confuse navigation in other filetypes.
 - Python exceptions inside UltiSnips are swallowed silently
-  unless you check `:messages`; a snippet that produces no
+  unless `:messages` is checked; a snippet that produces no
   output is often a Python runtime error rather than a
   configuration problem.
 
@@ -945,35 +948,32 @@ dynamic expansions.
 
 What I learnt most from this process is that configuration is
 iterative. The .vimrc I use today looks nothing like the one I
-started with. Each problem encountered -- a Tab conflict, a
-missing colour scheme, a terminal that would not open -- taught
+started with. Each problem encountered (a Tab conflict, a
+missing colour scheme, a terminal that would not open) taught
 me something about how Vim dispatches events and how plugins
 interact. The Python interpolation extension followed the same
 pattern: a concrete problem (a Stack Overflow question about
 chord placeholders) revealed a capability I had not known
 existed.
 
-For anyone attempting a similar setup, I would suggest starting
-with just vimtex and one ftplugin file. Get the R terminal
-auto-opening reliably before adding UltiSnips or ALE. Add
-static snippets next. Only reach for Python interpolation once
-you have encountered a problem that static snippets genuinely
-cannot solve. Layering complexity gradually makes debugging
-much simpler.
+For anyone attempting a similar setup, start with just vimtex
+and one ftplugin file. Get the R terminal auto-opening
+reliably before adding UltiSnips or ALE. Add static snippets
+next. Reach for Python interpolation only after encountering
+a problem that static snippets genuinely cannot solve.
+Layering complexity gradually makes debugging much simpler.
 
-Main takeaways:
-
-- Use `Ctrl-Tab` for snippet expansion to avoid Tab key
-  conflicts with popup menu navigation.
-- Place filetype-specific settings in `~/.vim/ftplugin/`
-  rather than cluttering the global .vimrc.
-- ALE with `styler` provides automatic R code formatting on
-  save with no manual intervention.
-- The `term_sendkeys()` function enables sending arbitrary R
-  commands from normal mode to a running R REPL.
-- The `!p` marker in UltiSnips enables Python interpolation;
-  assign the result to `snip.rv` and read tabstop values from
-  `t[1]`, `t[2]`, etc.
+In conclusion, five points merit emphasis. First, use
+`Ctrl-Tab` for snippet expansion to avoid Tab key conflicts
+with popup menu navigation. Second, place filetype-specific
+settings in `~/.vim/ftplugin/` rather than cluttering the
+global .vimrc. Third, ALE with `styler` provides automatic R
+code formatting on save with no manual intervention. Fourth,
+the `term_sendkeys()` function enables sending arbitrary R
+commands from normal mode to a running R REPL. Fifth, the
+`!p` marker in UltiSnips enables Python interpolation: assign
+the result to `snip.rv` and read tabstop values from `t[1]`,
+`t[2]`, etc.
 
 # See Also
 
